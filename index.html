@@ -1,18 +1,84 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <!--移动支持-->
-    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
-    <title>Welcome Beike.io</title>
-    <link rel="stylesheet" href="css/brand.css">
+	<meta charset="UTF-8">
+	<!--移动支持-->
+	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+	<title>Welcome Beike.io</title>
+	<link rel="stylesheet" href="css/brand.css">
 
 </head>
 <body>
 <!--中间圆心-->
-<canvas id="brand" width="300" height="300"></canvas>
+<!--<canvas id="brand" width="300" height="300"></canvas>-->
 <!--渐变-->
-<canvas id="gradient" width="300" height="300"></canvas>
-<script src="js/brand.js"></script>
+<!--<canvas id="gradient" width="300" height="300"></canvas>-->
+
+<canvas id="canvas" width='500' height='500'></canvas>
+
+<script>
+	// rect(x,y,w,h)
+//save()方法 保存canvas 状态，无参数 **
+//restore()方法 恢复canvas状态，无参数**
+// strokeStyle,
+// fillStyle,
+// globalAlpha,
+// lineWidth,
+// lineCap,
+// lineJoin,
+// miterLimit,
+// shadowOffsetX,
+// shadowOffsetY,
+// shadowBlur,
+// shadowColor,
+// globalCompositeOperation
+// rotate  rotate(angle)旋转角度,圆点是canvas圆点，即左上角
+
+  // function draw() {
+  //   var canvas = document.getElementById('canvas');
+  //   var ctx = canvas.getContext('2d')
+  //   // 绘制一个红线圆
+  //   // ctx.beginPath();//开始一条路径，或重置当前的路径
+  //   // ctx.rect(250, 250, 20,50); //moveTo()、lineTo()、quadricCurveTo()、bezierCurveTo()、arcTo() 和 arc()。
+  //   // ctx.strokeStyle = 'red';//绘制出通过 moveTo() 和 lineTo() 方法定义的路径
+  //   // ctx.rotate(0.3*Math.PI/180)
+  //   // ctx.stroke();//绘制出通过 moveTo() 和 lineTo() 方法定义的路径,放在后面
+  //   // window.requestAnimationFrame(draw);
+	// ctx.moveTo(250,250)
+  //   ctx.fillStyle='green'
+  //   ctx.fillRect(250,100,100,100);
+  //   ctx.fillStyle='red'
+  //   ctx.save();
+  //
+  //   var time = new Date();
+  //   ctx.rotate( ((2*Math.PI)/60)*time.getSeconds() + ((2*Math.PI)/60000)*time.getMilliseconds() );//rotate() 方法旋转画布的坐标系统。
+  //   ctx.fillRect(250,100,50,50);
+  //
+  //   window.requestAnimationFrame(draw);
+  //
+  // }
+
+
+draw()
+    // function draw() {
+    //   var ctx = document.getElementById('canvas').getContext('2d');
+    //   ctx.translate(75,75);
+    //
+    //   for (var i=1;i<6;i++){ // Loop through rings (from inside to out)
+    //     ctx.save();
+    //     ctx.fillStyle = 'rgb('+(51*i)+','+(255-51*i)+',255)';
+    //     for (var j=0;j<i*6;j++){ // draw individual dots
+    //       ctx.rotate(Math.PI*2/(i*6));
+    //       ctx.beginPath();
+    //       ctx.arc(0,i*12.5,5,0,Math.PI*2,false);
+    //       ctx.fill();
+    //     }
+    //
+    //     ctx.restore();
+    //   }
+    // }
+
+</script>
+<!--<script src="js/brand.js"></script>-->
 </body>
 </html>
