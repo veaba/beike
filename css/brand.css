@@ -34,7 +34,8 @@ ul {
   -ms-transform: translate(-50%, -50%);
   -o-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
-  border: 1px solid red; }
+  border: 1px solid red;
+  background: #000; }
 
 #brand {
   position: absolute;

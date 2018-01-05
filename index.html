@@ -14,7 +14,7 @@
 <!--渐变-->
 <!--<canvas id="gradient" width="300" height="300"></canvas>-->
 
-<canvas id="canvas" width='500' height='500'></canvas>
+<canvas id="canvas" width='500' height='500' onmousemove="coordinates(event)"></canvas>
 
 <script>
 	//canvas 状态：当前画面应用的所有样式和变形的一个  *快照*,
@@ -37,33 +37,60 @@
 	// 当前剪切路径 clipping path
 	
 	// rotate  rotate(angle)旋转角度,圆点是canvas圆点，即左上角
-// 	function init(){
-// 		window.requestAnimationFrame(draw);
-// 	}
+	// 	function init(){
+	// 		window.requestAnimationFrame(draw);
+	// 	}
 	function draw() {
 		
 		var canvas = document.getElementById('canvas');
 		var ctx = canvas.getContext('2d');
-		// ctx.clearRect(0,0,500,500); // clear canvas
-		ctx.fillRect(200, 200, 100, 100); //画一个矩形
-
-		ctx.fillStyle = '#'+Math.floor(Math.random()*16777215).toString(16)
-		ctx.save();
-		ctx.translate(150,150);
-		ctx.restore();
-		ctx.fillRect(300, 300, 50, 50); //画一个矩形
-		console.info('#'+Math.floor(Math.random()*16777215).toString(16));
+		
+		// 1、十字坐标定位线
+		ctx.beginPath();
+		ctx.strokeStyle = 'green';
+		ctx.moveTo(250, 250);
+		ctx.lineTo(250, 260);
+		ctx.moveTo(250, 250);
+		ctx.lineTo(260, 250);
+		ctx.moveTo(250, 250);
+		ctx.lineTo(250, 240);
+		ctx.moveTo(250, 250);
+		ctx.lineTo(240, 250);
+		ctx.stroke();
+	
+		// 2、旋转线
+		ctx.beginPath();
+		ctx.moveTo(250,250);
+		ctx.strokeStyle = 'red';
+		ctx.lineTo(275, 275);
+		ctx.stroke()
 		
 		
-		var init = setInterval(function () {
-			draw()
-			clearInterval(init)
-		},1000)
+		// 3、旋转一个根线
+		ctx.beginPath();
+		ctx.strokeStyle = 'yellow';
+		ctx.moveTo(250,250);
+		ctx.lineTo(280, 220);
+		ctx.translate(140,110)
+		ctx.rotate(40*Math.PI/180);
+		
+		ctx.stroke();
+		
+		// 4、一个蓝色的线
+		// ctx.beginPath();
+		// ctx.strokeStyle = 'blue';
+		// ctx.moveTo(250,250);
+		// ctx.lineTo(225, 225);
+		// ctx.stroke()
+		
 	}
 	
-	draw()
-
-
+	draw();
+	
+	function coordinates(event) {
+		var e = event;
+		console.info(e.offsetX,e.offsetY);
+	}
 </script>
 <!--<script src="js/brand.js"></script>-->
 </body>
