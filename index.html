@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-		<meta charset="UTF-8">
-		<!--移动支持-->
-		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
-		<title>Welcome Beike.io</title>
-		<link rel="stylesheet" href="css/brand.css">
+    <meta charset="UTF-8">
+    <!--移动支持-->
+    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <title>Welcome Beike.io</title>
+    <link rel="stylesheet" href="css/brand.css">
 
 </head>
 <body>
@@ -17,80 +17,79 @@
 <canvas id="canvas" width='500' height='500' onmousemove="coordinates(event)"></canvas>
 
 <script>
-	//canvas 状态：当前画面应用的所有样式和变形的一个  *快照*,
-	// rect(x,y,w,h)
-	
-	// save()方法 保存canvas 状态，无参数，可多次调用，每调一次，上一个保存的状态则从栈弹出，设定恢复,意思是，save()<- 保存的值 ->save()
-	// restore()方法 恢复canvas状态，无参数**
-	// strokeStyle,canvas 状态
-	// fillStyle,canvas 状态
-	// globalAlpha,canvas 状态
-	// lineWidth,canvas 状态
-	// lineCap,canvas 状态
-	// lineJoin,canvas 状态
-	// miterLimit,canvas 状态
-	// shadowOffsetX,canvas 状态
-	// shadowOffsetY,canvas 状态
-	// shadowBlur,canvas 状态
-	// shadowColor,canvas 状态
-	// globalCompositeOperation,canvas 状态
-	// 当前剪切路径 clipping path
-	
-	// rotate  rotate(angle)旋转角度,圆点是canvas圆点，即左上角
-	// 	function init(){
-	// 		window.requestAnimationFrame(draw);
-	// 	}
-	function draw() {
-		
-		var canvas = document.getElementById('canvas');
-		var ctx = canvas.getContext('2d');
-		
-		// 1、十字坐标定位线
-		ctx.beginPath();
-		ctx.strokeStyle = 'green';
-		ctx.moveTo(250, 250);
-		ctx.lineTo(250, 260);
-		ctx.moveTo(250, 250);
-		ctx.lineTo(260, 250);
-		ctx.moveTo(250, 250);
-		ctx.lineTo(250, 240);
-		ctx.moveTo(250, 250);
-		ctx.lineTo(240, 250);
-		ctx.stroke();
-	
-		// 2、旋转线
-		ctx.beginPath();
-		ctx.moveTo(250,250);
-		ctx.strokeStyle = 'red';
-		ctx.lineTo(275, 275);
-		ctx.stroke()
-		
-		
-		// 3、旋转一个根线
-		ctx.beginPath();
-		ctx.strokeStyle = 'yellow';
-		ctx.moveTo(250,250);
-		ctx.lineTo(280, 220);
-		ctx.translate(140,110)
-		ctx.rotate(40*Math.PI/180);
-		
-		ctx.stroke();
-		
-		// 4、一个蓝色的线
-		// ctx.beginPath();
-		// ctx.strokeStyle = 'blue';
-		// ctx.moveTo(250,250);
-		// ctx.lineTo(225, 225);
-		// ctx.stroke()
-		
-	}
-	
-	draw();
-	
-	function coordinates(event) {
-		var e = event;
-		console.info(e.offsetX,e.offsetY);
-	}
+  //canvas 状态：当前画面应用的所有样式和变形的一个  *快照*,
+  // rect(x,y,w,h)
+
+  // save()方法 保存canvas 状态，无参数，可多次调用，每调一次，上一个保存的状态则从栈弹出，设定恢复,意思是，save()<- 保存的值 ->save()
+  // restore()方法 恢复canvas状态，无参数**
+  // strokeStyle,canvas 状态
+  // fillStyle,canvas 状态
+  // globalAlpha,canvas 状态
+  // lineWidth,canvas 状态
+  // lineCap,canvas 状态
+  // lineJoin,canvas 状态
+  // miterLimit,canvas 状态
+  // shadowOffsetX,canvas 状态
+  // shadowOffsetY,canvas 状态
+  // shadowBlur,canvas 状态
+  // shadowColor,canvas 状态
+  // globalCompositeOperation,canvas 状态
+  // 当前剪切路径 clipping path
+
+  // rotate  rotate(angle)旋转角度,圆点是canvas圆点，即左上角
+  // 	function init(){
+  // 		window.requestAnimationFrame(draw);
+  // 	}
+  function mask() {
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+    // 1、十字坐标定位线
+    ctx.beginPath();
+    ctx.strokeStyle = 'green';
+    ctx.moveTo(250, 250);
+    ctx.lineTo(250, 260);
+    ctx.moveTo(250, 250);
+    ctx.lineTo(260, 250);
+    ctx.moveTo(250, 250);
+    ctx.lineTo(250, 240);
+    ctx.moveTo(250, 250);
+    ctx.lineTo(240, 250);
+    ctx.stroke();
+  }
+
+  mask()
+
+  function draw() {
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+    var time = new Date();
+    ctx.fillStyle = "red";
+    ctx.translate(250, 250);
+    ctx.rotate(time.getSeconds() * 6 * Math.PI / 180);
+    ctx.save();
+    ctx.restore();
+    ctx.fillRect(0, 0, 10, 50);
+
+
+    // var time = new Date();
+    // ctx.fillStyle = "red";
+    // ctx.translate(250,250);
+    // ctx.rotate(time.getSeconds()*6*Math.PI/180);
+    // ctx.save();
+    // ctx.restore();
+    // ctx.fillRect(0,0,10,50);
+
+  }
+
+  draw()
+
+  /**
+   * @desc 取坐标点
+   * */
+  function coordinates(event) {
+    var e = event;
+    console.info(e.offsetX, e.offsetY);
+  }
 </script>
 <!--<script src="js/brand.js"></script>-->
 </body>
