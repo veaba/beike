@@ -1,12 +1,28 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <!--移动支持-->
-    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
-    <title>Welcome Beike.io</title>
-    <link rel="stylesheet" href="css/brand.css">
-
+		<meta charset="UTF-8">
+		<!--移动支持-->
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+		<title>Welcome Beike.io</title>
+		<link rel="stylesheet" href="css/brand.css">
+		<script>
+			/**
+			 * @desc 扇形绑定在原型的函数
+			 * @return
+			 * */
+			CanvasRenderingContext2D.prototype.sector = function (x, y, r, sDeg, eDeg) {
+				this.save();
+				this.translate(x, y);
+				this.beginPath();
+				this.arc(0, 0, r, sDeg * Math.PI / 180, eDeg * Math.PI / 180);
+				this.lineTo(0, 0);
+				this.rotate(sDeg * Math.PI / 180);
+				this.lineTo(r, 0);
+				this.restore();
+				return this;
+			}
+		</script>
 </head>
 <body>
 <!--中间圆心-->
@@ -17,107 +33,106 @@
 <canvas id="canvas" width='500' height='500' onmousemove="coordinates(event)"></canvas>
 
 <script>
-  //canvas 状态：当前画面应用的所有样式和变形的一个  *快照*,
-  // rect(x,y,w,h)
-
-  // save()方法 保存canvas 状态，无参数，可多次调用，每调一次，上一个保存的状态则从栈弹出，设定恢复,意思是，save()<- 保存的值 ->save()
-  // restore()方法 恢复canvas状态，无参数**
-  // strokeStyle,canvas 状态
-  // fillStyle,canvas 状态
-  // globalAlpha,canvas 状态
-  // lineWidth,canvas 状态
-  // lineCap,canvas 状态
-  // lineJoin,canvas 状态
-  // miterLimit,canvas 状态
-  // shadowOffsetX,canvas 状态
-  // shadowOffsetY,canvas 状态
-  // shadowBlur,canvas 状态
-  // shadowColor,canvas 状态
-  // globalCompositeOperation,canvas 状态
-  // 当前剪切路径 clipping path
-
-  // rotate  rotate(angle)旋转角度,圆点是canvas圆点，即左上角
-  // 	function init(){
-  // 		window.requestAnimationFrame(draw);
-  // 	}
-  function mask() {
-    var canvas = document.getElementById('canvas');
-    var ctx = canvas.getContext('2d');
-    // 1、十字坐标定位线
-    ctx.beginPath();
-    ctx.strokeStyle = 'green';
-    ctx.moveTo(250, 250);
-    ctx.lineTo(250, 260);
-    ctx.moveTo(250, 250);
-    ctx.lineTo(260, 250);
-    ctx.moveTo(250, 250);
-    ctx.lineTo(250, 240);
-    ctx.moveTo(250, 250);
-    ctx.lineTo(240, 250);
-    ctx.stroke();
-  }
-
-  mask()
-  
-  /**
-   * @desc 初始化函数
-   * */
-  function init() {
-	  window.requestAnimationFrame(draw)
-  }
-
-  function draw() {
-    var canvas = document.getElementById('canvas');
-    var ctx = canvas.getContext('2d');
-    // 第一步 清空画布
-	  ctx.clearRect(0,0,500,500);
-	  
-	  
-	  // 秒钟
-	  var time = new Date();
-	  ctx.save();
-	  ctx.fillStyle = "red";
-	  ctx.translate(250, 250); // translate 方法重新映射画布上的(0,0)位置,"映射"，互相对应的关系，
-    ctx.rotate((time.getSeconds() * 6 * Math.PI / 180)-(Math.PI));
-    ctx.fillRect(0, 0, 1, 100);
-	  ctx.restore(); // 将绘图状态设置为保存值，
-    
-    //分钟
-	  ctx.save();
-	  ctx.fillStyle = "green";
-	  ctx.translate(250,250);
-	  // 60分一个周期,一分 6°，
-	  ctx.rotate((time.getMinutes() * 6 * Math.PI / 180)-(Math.PI));
-	  ctx.fillRect(0, 0, 2, 80);
-	  ctx.restore(); // 将绘图状态设置为保存值，
-	  
-	  // 时钟
-	  ctx.save();
-	  ctx.fillStyle='blue';
-	  ctx.translate(250,250);
-	  
-	  // 24小时制，一个小时旋转15°，校正旋转角度 ,旋转1° 为 :(1 *ath.PI/180)-(Math.PI);time.getHours()) 得到24小时制的事件，再取余，得到所需要旋转跨度
-	  ctx.rotate(((time.getHours()%12)*15 * Math.PI/180)-(Math.PI));
-	  console.info();
-	  ctx.fillRect(0, 0, 4, 60);
-	  ctx.restore(); // 将绘图状态设置为保存值，
-	 
-	  ctx.beginPath();
-	  ctx.arc(250, 250, 105, 0, Math.PI * 2, false); // Earth orbit
-	  ctx.stroke();
+	//canvas 状态：当前画面应用的所有样式和变形的一个  *快照*,
+	// rect(x,y,w,h)
 	
-	  window.requestAnimationFrame(draw);
-  }
+	// save()方法 保存canvas 状态，无参数，可多次调用，每调一次，上一个保存的状态则从栈弹出，设定恢复,意思是，save()<- 保存的值 ->save()
+	// restore()方法 恢复canvas状态，无参数**
+	// strokeStyle,canvas 状态
+	// fillStyle,canvas 状态
+	// globalAlpha,canvas 状态
+	// lineWidth,canvas 状态
+	// lineCap,canvas 状态
+	// lineJoin,canvas 状态
+	// miterLimit,canvas 状态
+	// shadowOffsetX,canvas 状态
+	// shadowOffsetY,canvas 状态
+	// shadowBlur,canvas 状态
+	// shadowColor,canvas 状态
+	// globalCompositeOperation,canvas 状态
+	// 当前剪切路径 clipping path
+	
+	// rotate  rotate(angle)旋转角度,圆点是canvas圆点，即左上角
+	// 	function init(){
+	// 		window.requestAnimationFrame(draw);
+	// 	}
+	function mask() {
+		var canvas = document.getElementById('canvas');
+		var ctx = canvas.getContext('2d');
+		// 1、十字坐标定位线
+		ctx.beginPath();
+		ctx.strokeStyle = 'green';
+		ctx.moveTo(250, 250);
+		ctx.lineTo(250, 260);
+		ctx.moveTo(250, 250);
+		ctx.lineTo(260, 250);
+		ctx.moveTo(250, 250);
+		ctx.lineTo(250, 240);
+		ctx.moveTo(250, 250);
+		ctx.lineTo(240, 250);
+		ctx.stroke();
+	}
+	
+	mask()
+	
+	/**
+	 * @desc 初始化函数
+	 * */
+	function init() {
+		window.requestAnimationFrame(draw)
+	}
+	
+	function draw() {
+		var canvas = document.getElementById('canvas');
+		var ctx = canvas.getContext('2d');
+		// 第一步 清空画布
+		ctx.clearRect(0, 0, 500, 500);
+		
+		
+		// 秒钟
+		var time = new Date();
+		ctx.save();
+		ctx.fillStyle = "red";
+		ctx.translate(250, 250); // translate 方法重新映射画布上的(0,0)位置,"映射"，互相对应的关系，
+		ctx.rotate((time.getSeconds() * 6 * Math.PI / 180) - (Math.PI));
+		ctx.fillRect(0, 0, 1, 100);
+		ctx.restore(); // 将绘图状态设置为保存值，
+		
+		
+		// 扇形
+		ctx.save();
+		ctx.strokeStyle='blue'
+		ctx.sector(100, 100, 100, 10, 270).stroke();
+		ctx.restore();
+		
+		ctx.fillStyle='red'
+		ctx.save();
+		ctx.sector(100, 100, 100, 90, 120).fill();
+		ctx.restore();
+		
+		ctx.save();
+		ctx.sector(100, 100, 100, 160, 180).stroke();
+		ctx.restore();
+		
+		
+		ctx.beginPath();
+		ctx.arc(250, 250, 105, 0, Math.PI * 2, false); // Earth orbit
+		ctx.stroke();
+		
+		window.requestAnimationFrame(draw);
+	}
+	
+	init();
+	
+	/**
+	 * @desc 取坐标点
+	 * */
+	function coordinates(event) {
+		var e = event;
+		console.info(e.offsetX, e.offsetY);
+	}
 
-  init();
 
-  /**
-   * @desc 取坐标点
-   * */
-  function coordinates(event) {
-    var e = event;
-    console.info(e.offsetX, e.offsetY);
-  }
 </script>
 <!--<script src="js/brand.js"></script>-->
 </body>
