@@ -72,20 +72,41 @@
     // 第一步 清空画布
 	  ctx.clearRect(0,0,500,500);
 	  
-    ctx.fillStyle = "red";
-	  ctx.save();
-    ctx.translate(250, 250); // translate 方法重新映射画布上的(0,0)位置,"映射"，互相对应的关系，
 	  
+	  // 秒钟
 	  var time = new Date();
-    ctx.rotate(time.getSeconds() * 6 * Math.PI / 180);
-    ctx.translate(0,0)
-    ctx.fillRect(0, 0, 50, 20);
+	  ctx.save();
+	  ctx.fillStyle = "red";
+	  ctx.translate(250, 250); // translate 方法重新映射画布上的(0,0)位置,"映射"，互相对应的关系，
+    ctx.rotate((time.getSeconds() * 6 * Math.PI / 180)-(Math.PI));
+    ctx.fillRect(0, 0, 1, 100);
+	  ctx.restore(); // 将绘图状态设置为保存值，
     
-	  window.requestAnimationFrame(draw);
-	  ctx.restore() // 将绘图状态设置为保存值，
+    //分钟
+	  ctx.save();
+	  ctx.fillStyle = "green";
+	  ctx.translate(250,250);
+	  // 60分一个周期,一分 6°，
+	  ctx.rotate((time.getMinutes() * 6 * Math.PI / 180)-(Math.PI));
+	  ctx.fillRect(0, 0, 2, 80);
+	  ctx.restore(); // 将绘图状态设置为保存值，
+	  
+	  // 时钟
+	  ctx.save();
+	  ctx.fillStyle='blue';
+	  ctx.translate(250,250);
+	  
+	  // 24小时制，一个小时旋转15°，校正旋转角度 ,旋转1° 为 :(1 *ath.PI/180)-(Math.PI);time.getHours()) 得到24小时制的事件，再取余，得到所需要旋转跨度
+	  ctx.rotate(((time.getHours()%12)*15 * Math.PI/180)-(Math.PI));
+	  console.info();
+	  ctx.fillRect(0, 0, 4, 60);
+	  ctx.restore(); // 将绘图状态设置为保存值，
+	 
 	  ctx.beginPath();
 	  ctx.arc(250, 250, 105, 0, Math.PI * 2, false); // Earth orbit
 	  ctx.stroke();
+	
+	  window.requestAnimationFrame(draw);
   }
 
   init();

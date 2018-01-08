@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+		<meta charset="UTF-8">
+		<!--移动支持-->
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+		<title>Welcome BeiKe.io ——canvas clock</title>
+		<link rel="stylesheet" href="../css/brand.css">
+
+</head>
+<body>
+<canvas id="canvas" width='500' height='500' onmousemove="coordinates(event)"></canvas>
+<script>
+	function mask() {
+		var canvas = document.getElementById('canvas');
+		var ctx = canvas.getContext('2d');
+		// 1、十字坐标定位线
+		ctx.beginPath();
+		ctx.strokeStyle = 'green';
+		ctx.moveTo(250, 250);
+		ctx.lineTo(250, 260);
+		ctx.moveTo(250, 250);
+		ctx.lineTo(260, 250);
+		ctx.moveTo(250, 250);
+		ctx.lineTo(250, 240);
+		ctx.moveTo(250, 250);
+		ctx.lineTo(240, 250);
+		ctx.stroke();
+	}
+	
+	mask()
+	
+	/**
+	 * @desc 初始化函数
+	 * */
+	function init() {
+		window.requestAnimationFrame(draw)
+	}
+	
+	function draw() {
+		var canvas = document.getElementById('canvas');
+		var ctx = canvas.getContext('2d');
+		// 第一步 清空画布
+		ctx.clearRect(0,0,500,500);
+		
+		
+		// 秒钟
+		var time = new Date();
+		ctx.save();
+		ctx.fillStyle = "red";
+		ctx.translate(250, 250); // translate 方法重新映射画布上的(0,0)位置,"映射"，互相对应的关系，
+		ctx.rotate((time.getSeconds() * 6 * Math.PI / 180)-(Math.PI));
+		ctx.fillRect(0, 0, 1, 100);
+		ctx.restore(); // 将绘图状态设置为保存值，
+		
+		//分钟
+		ctx.save();
+		ctx.fillStyle = "green";
+		ctx.translate(250,250);
+		// 60分一个周期,一分 6°，
+		ctx.rotate((time.getMinutes() * 6 * Math.PI / 180)-(Math.PI));
+		ctx.fillRect(0, 0, 2, 80);
+		ctx.restore(); // 将绘图状态设置为保存值，
+		
+		// 时钟
+		ctx.save();
+		ctx.fillStyle='blue';
+		ctx.translate(250,250);
+		
+		// 24小时制，一个小时旋转15°，校正旋转角度 ,旋转1° 为 :(1 *ath.PI/180)-(Math.PI);time.getHours()) 得到24小时制的事件，再取余，得到所需要旋转跨度
+		ctx.rotate(((time.getHours()%12)*15 * Math.PI/180)-(Math.PI));
+		console.info();
+		ctx.fillRect(0, 0, 4, 60);
+		ctx.restore(); // 将绘图状态设置为保存值，
+		
+		ctx.beginPath();
+		ctx.arc(250, 250, 105, 0, Math.PI * 2, false); // Earth orbit
+		ctx.stroke();
+		
+		window.requestAnimationFrame(draw);
+	}
+	
+	init();
+	
+	/**
+	 * @desc 取坐标点
+	 * */
+	function coordinates(event) {
+		var e = event;
+		console.info(e.offsetX, e.offsetY);
+	}
+</script>
+<!--<script src="js/brand.js"></script>-->
+</body>
+</html>
