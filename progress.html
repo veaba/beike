@@ -46,7 +46,9 @@
         ?
         opt.len > ady ? ady += opt.num : ady -= opt.num :
         opt.len > adx ? adx += opt.num : adx -= opt.num;
-      if(adx == opt.len || ady == opt.len) { //停止循环
+      if(adx === opt.len || ady === opt.len) { //停止循环
+          
+          console.log(adx)
         clearInterval(Time);
       }
       opt.Node.beginPath(); // 开始绘制线条
@@ -55,6 +57,8 @@
       opt.Node.lineWidth = opt.lw || 1;
       opt.Node.strokeStyle = opt.color;
       opt.Node.stroke();
+    
+        console.info(opt);
     }, opt.timing);
   };
 
@@ -63,12 +67,13 @@
     color: "#fff",
     staX: 133,
     staY: 184,
-    len: 58,
+    len: 100,
     timing: 20,
-    num: 1,
+    num: 3,
     direc: true,
     lw: 2
   });
+  line3.draw();
   line3.draw();
 
 
