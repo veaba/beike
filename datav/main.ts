@@ -3,10 +3,13 @@
  * @author Jo.gel
  * @date 2019/6/10
  ***********************/
+ /*构造 11
+- 根据方向来旋转
 
-const canvas= document.querySelector('#canvas')
-const width =canvas.width
-const height =canvas.height
+ */
+const canvas= <HTMLElement>document.querySelector('#canvas')
+const width = Number(canvas.width||0)
+const height = Number(canvas.height||0)
 const color = "red"
 console.info(width,height);
 
@@ -16,7 +19,7 @@ const ctx=canvas.getContext('2d')
 console.info(ctx);
 
 ctx.beginPath();
-ctx.moveTo(width/2, height/2);
+ctx.moveTo((width)/2, height/2);
 ctx.lineTo(100, 120)
 
 let a =1
@@ -44,5 +47,16 @@ ctx.stroke();
 const _fn={
 	random:(num)=>{
 		return Math.floor(Math.random()*num)
+	},
+	/**
+	 * @desc  
+	 * x
+	 * y
+	 * z 长度
+	 * r旋转角度，顺时针方向
+	 * 
+	 */
+	direction:(x:number,y:number,z:number,r:number)=>{
+		console.log(x)
 	}
 }
