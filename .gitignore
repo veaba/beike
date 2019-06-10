@@ -6,10 +6,12 @@ bin-release/
 [Oo]bj/ # FlashDevelop obj
 [Bb]in/ # FlashDevelop bin
 
+
 # Other files and folders
 .settings/
 
 # Executables
+node_modules
 *.swf
 *.air
 *.ipa

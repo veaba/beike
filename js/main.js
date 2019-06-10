@@ -19,35 +19,27 @@ ctx.beginPath();
 ctx.moveTo((width) / 2, height / 2);
 ctx.lineTo(100, 120);
 var a = 1;
-var timer = setInterval(function () {
-    a++;
-    ctx.stroke();
-    ctx.moveTo(width / 2, height / 2);
-    ctx.lineTo(_fn.random(50), _fn.random(60));
-    ctx.stroke();
-    console.log(timer);
-    if (a > 10) {
-        clearInterval(timer);
-    }
-}, 1000);
+// let timer =setInterval(()=> {
+// 	a++
+// 	ctx.stroke();
+// 	ctx.moveTo(width/2, height/2);
+// 	ctx.lineTo(_fn.random(50),_fn.random(60));
+// 	ctx.stroke();
+// 	console.log(timer)
+// 	if(a>10){
+// 		clearInterval(timer)
+// 	}
+// },1000)
 ctx.stroke();
 ctx.beginPath();
 ctx.moveTo(width / 2, height / 2);
 ctx.lineTo(200, 300);
 ctx.stroke();
-var _fn = {
-    random: function (num) {
-        return Math.floor(Math.random() * num);
-    },
-    /**
-     * @desc
-     * x
-     * y
-     * z 长度
-     * r旋转角度，顺时针方向
-     *
-     */
-    direction: function (x, y, z, r) {
-        console.log(x);
-    }
-};
+_fn.direction(300, 300, 100, 30, ctx);
+_fn.direction(300, 300, 100, 35, ctx);
+_fn.direction(300, 300, 100, 40, ctx);
+_fn.direction(300, 300, 100, 45, ctx);
+_fn.direction(300, 300, 100, 50, ctx);
+_fn.direction(300, 300, 100, 55, ctx);
+_fn.direction(300, 300, 100, 60, ctx);
+_fn.direction(300, 300, 100, 65, ctx);
