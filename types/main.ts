@@ -7,10 +7,9 @@
 - 根据方向来旋转
 
  */
-
-const canvas= <HTMLElement>document.querySelector('#canvas')
-const width = Number(canvas.width||0)
-const height = Number(canvas.height||0)
+const canvas:any= <HTMLElement>document.querySelector('#canvas')
+const width:number = Number(canvas.width) ||0 
+const height:number = Number(canvas.height)||0
 const color = "red"
 console.info(width,height);
 
@@ -45,13 +44,14 @@ ctx.moveTo(width/2, height/2);
 ctx.lineTo(200, 300);
 ctx.stroke();
 
+console.log(222,_random(111))
 
-// _fn.direction(300,300,100,30,ctx)
-// _fn.direction(300,300,100,35,ctx)
-// _fn.direction(300,300,100,40,ctx)
-// _fn.direction(300,300,100,45,ctx)
-_fn.direction(300,300,100,127,ctx)
-// _fn.direction(300,300,100,50,ctx)
-// _fn.direction(300,300,100,55,ctx)
-// _fn.direction(300,300,100,60,ctx)
-// _fn.direction(300,300,100,65,ctx)
+_fn.direction(300,300,100,30,ctx)
+_fn.direction(300,300,100,35,ctx)
+_fn.direction(300,300,100,40,ctx)
+_fn.direction(300,300,100,45,ctx)
+_fn.direction(300,300,100,55,ctx)
+_fn.direction(300,300,100,60,ctx)
+_fn.direction(300,300,100,65,ctx)
+_fn.direction(300,300,100,70,ctx)
+_fn.direction(300,300,100,75,ctx)

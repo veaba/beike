@@ -1,5 +1,5 @@
 const _fn = {
-	random: (num) => {
+	random: (num:number) => {
 		return Math.floor(Math.random() * num)
 	},
 	/**
@@ -8,10 +8,10 @@ const _fn = {
 	 * y Y轴坐标
 	 * z 线的长度
 	 * r 旋转角度，顺时针方向
-	 * 
+	 * ctx canvas 上下文
 	 */
-	direction: (x: number, y: number, z: number, r: number, ctx: [object, Function, any]) => {
-
+	direction: (x: number, y: number, z: number, r: number, ctx: any) => {
+		// let ctx:any=ctx
 		// TODO 度数
 		//起始点
 		ctx.beginPath()

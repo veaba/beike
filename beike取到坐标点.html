@@ -1,252 +1,257 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <!--移动支持-->
-    <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
-    <title>Welcome Beike.io</title>
-    <link rel="stylesheet" href="css/brand.css">
-    <script>
-      /**
-       * @desc 扇形绑定在原型的函数
-       * @return
-       * */
-      CanvasRenderingContext2D.prototype.sector = function (x, y, r, sDeg, eDeg) {
-        this.save();
-        this.translate(x, y);
-        this.beginPath();
-        this.arc(0, 0, r, sDeg * Math.PI / 180, eDeg * Math.PI / 180);
-        this.lineTo(0, 0);
-        this.rotate(sDeg * Math.PI / 180);
-        this.lineTo(r, 0);
-        this.restore();
-        return this;
-      };
-    </script>
+		<meta charset="UTF-8">
+		<!--移动支持-->
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+		<title>Welcome Beike.io</title>
+		<link rel="stylesheet" href="css/brand.css">
+		<script>
+			/**
+			 * @desc 扇形绑定在原型的函数
+			 * @return
+			 * */
+			CanvasRenderingContext2D.prototype.sector = function (x, y, r, sDeg, eDeg) {
+				this.save();
+				this.translate(x, y);
+				this.beginPath();
+				this.arc(0, 0, r, sDeg * Math.PI / 180, eDeg * Math.PI / 180);
+				this.lineTo(0, 0);
+				this.rotate(sDeg * Math.PI / 180);
+				this.lineTo(r, 0);
+				this.restore();
+				return this;
+			};
+		</script>
 </head>
 <body>
 <canvas id="canvas" width='600' height='400' onmousemove="coordinates(event)"></canvas>
 
 <script>
-  /**
-   * @desc 声明参数
-   * */
-  let RADIUS = 60;//圆的半径
-  let ANGLE = 30;//旋转角度
-  let WIDTH = 600;//宽
-  let HEIGHT = 400;//高
-  let DOT_X = 200;//原点X轴
-  let DOT_Y = 300;//原点Y轴
-  let GIRTH = 2 * Math.PI * RADIUS;//半斤60的周长
-  let sin30 = Math.sin(ANGLE * Math.PI / 180);//sin30 = a/c
-  let cos30 = Math.cos(ANGLE * Math.PI / 180);//cos30 = b/c
-
-  /**
-   * @desc 求sin α
-   * */
-  function sinAngle(angle) {
-    return Math.round(Math.sin(angle * Math.PI / 180) * 1000000) / 1000000;
-  }
-
-  /**
-   * @desc 求cos α
-   * */
-  function cosAngle(angle) {
-    return Math.round(Math.cos(angle * Math.PI / 180) * 1000000) / 1000000;
-  }
-
-  /**
-   * @desc 初始化函数
-   * */
-  function init() {
-    window.requestAnimationFrame(draw);
-    // setInterval(function () {
-    // 	draw();
-    // }, 1000);
-  }
-
-  function draw() {
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    const time = new Date();
-    ctx.globalCompositeOperation = 'destination-over';
-    // 第一步 清空画布
-    ctx.clearRect(0, 0, 600, 400);
-
-    // 秒钟
-    ctx.save();
-    ctx.translate(200, 300);
-    ctx.fillStyle = 'red';
-    ctx.rotate((time.getSeconds() * -30 * Math.PI / 180));
-    ctx.fillRect(0, 0, 1, 60);
-    ctx.restore();
-
-    //绘制最长的线
-    ctx.save();
-    ctx.strokeStyle = 'blue';
-    let a_ = sinAngle(0);
-    let b_ = cosAngle(0);
-    ctx.moveTo(DOT_X + a_ * RADIUS, DOT_Y + b_ * RADIUS);
-    ctx.lineTo((DOT_X + a_ * RADIUS) + b_ * 12 / 12 * GIRTH, (DOT_Y + b_ * RADIUS) - a_ * 12 / 12 * GIRTH);
-    ctx.stroke();
-    ctx.restore();
-
-    // 第一个直线偏移
-    ctx.save();
-    let a = sinAngle(ANGLE);
-    let b = cosAngle(ANGLE);
-    ctx.strokeStyle = 'red';
-    ctx.moveTo(DOT_X + a * RADIUS, DOT_Y + b * RADIUS);
-    ctx.lineTo((DOT_X + a * RADIUS) + b * 11 / 12 * GIRTH, (DOT_Y + b * RADIUS) - a * 11 / 12 * GIRTH);
-    ctx.stroke();
-    ctx.restore();
+	/**
+	 * @desc 声明参数
+	 * */
+	let RADIUS = 60;//圆的半径
+	let ANGLE = 30;//旋转角度
+	let WIDTH = 600;//宽
+	let HEIGHT = 400;//高
+	let DOT_X = 200;//原点X轴
+	let DOT_Y = 300;//原点Y轴
+	let GIRTH = 2 * Math.PI * RADIUS;//半斤60的周长
+	let sin30 = Math.sin(ANGLE * Math.PI / 180);//sin30 = a/c
+	let cos30 = Math.cos(ANGLE * Math.PI / 180);//cos30 = b/c
+	
+	/**
+	 * @desc 求sin α
+	 * */
+	function sinAngle(angle) {
+		return Math.round(Math.sin(angle * Math.PI / 180) * 1000000) / 1000000;
+	}
+	
+	/**
+	 * @desc 求cos α
+	 * */
+	function cosAngle(angle) {
+		return Math.round(Math.cos(angle * Math.PI / 180) * 1000000) / 1000000;
+	}
+	
+	/**
+	 * @desc 初始化函数
+	 * */
+	function init() {
+		window.requestAnimationFrame(draw);
+		// setInterval(function () {
+		// 	draw();
+		// }, 1000);
+	}
+	
+	function draw() {
+		const canvas = document.getElementById('canvas');
+		const ctx = canvas.getContext('2d');
+		const time = new Date();
+		ctx.globalCompositeOperation = 'destination-over';
+		// 第一步 清空画布
+		ctx.clearRect(0, 0, 600, 400);
+		
+		// 秒钟
+		ctx.save();
+		ctx.translate(200, 300); //定位圆心
+		ctx.fillStyle = 'red';
+		ctx.rotate(-150 * Math.PI / 180);
+		ctx.fillRect(0, 0, 1, 60);
+		ctx.restore();
 
 
-    // 第二个直线偏移
-    ctx.save();
-    let a1 = sinAngle(2 * ANGLE);//0.866025*60
-    let b1 = cosAngle(2 * ANGLE);//0.5*60
-    ctx.strokeStyle = 'green';
-    ctx.moveTo(DOT_X + a1 * RADIUS, DOT_Y + b1 * RADIUS);
-    ctx.lineTo((DOT_X + a1 * RADIUS) + b1 * 10 / 12 * GIRTH, (DOT_Y + b1 * RADIUS) - a1 * 10 / 12 * GIRTH);
-    ctx.stroke();
-    ctx.restore();
-
-    // 第三个直线偏移
-    ctx.save();
-    let a2 = sinAngle(3 * ANGLE);//1*60
-    let b2 = cosAngle(3 * ANGLE);//0*60
-    ctx.strokeStyle = 'blue';
-    ctx.moveTo(DOT_X + a2 * RADIUS, DOT_Y + b2 * RADIUS);
-    ctx.lineTo((DOT_X + a2 * RADIUS) + b2 * 9 / 12 * GIRTH, (DOT_Y + b2 * RADIUS) - a2 * 9 / 12 * GIRTH);
-    ctx.stroke();
-    ctx.restore();
-
-
-    // 第四个直线偏移
-    ctx.save();
-    let a3 = sinAngle(4 * ANGLE) * RADIUS;//0.866025*60
-    let b3 = cosAngle(4 * ANGLE) * RADIUS;//-0.5*60
-    ctx.strokeStyle = 'yellow';
-    ctx.moveTo(DOT_X + a3, DOT_Y + b3);//(251.9615,270),(126.29779385640829 52.34417777399196)
-    ctx.lineTo(DOT_X + a3 - sinAngle(30) * 8 / 12 * GIRTH, DOT_Y + b3 - cosAngle(30) * 8 / 12 * GIRTH);
-    ctx.stroke();
-    ctx.restore();
-
-    // 第五个直线偏移
-
-    ctx.save();
-    let a4 = sinAngle(5 * ANGLE);//0.5
-    let b4 = cosAngle(5 * ANGLE);//-0.866025
-    ctx.strokeStyle = 'red';
-    ctx.moveTo(DOT_X + a4 * RADIUS, DOT_Y + b4 * RADIUS);//(230,248.0385),()
-    ctx.lineTo((DOT_X + a4 * RADIUS) + b4 * 7 / 12 * GIRTH, (DOT_Y + b4 * RADIUS) - a4 * 7 / 12 * GIRTH);
-    ctx.stroke();
-    ctx.restore();
-
-    // 第六个直线偏移
-    ctx.save();
-    let a5 = sinAngle(6 * ANGLE);//0.5
-    let b5 = cosAngle(6 * ANGLE);//-0.866025
-    ctx.strokeStyle = 'green';
-    ctx.moveTo(DOT_X + a5 * RADIUS, DOT_Y + b5 * RADIUS);//(230,248.0385),()
-    ctx.lineTo((DOT_X + a5 * RADIUS) + b5 * 6 / 12 * GIRTH, (DOT_Y + b5 * RADIUS) - a5 * 6 / 12 * GIRTH);
-    ctx.stroke();
-    ctx.restore();
-
-
-    // 第七个直线偏移
-    ctx.save();
-    let a6 = sinAngle(7 * ANGLE);//-0.5
-    let b6 = cosAngle(7 * ANGLE);//-0.866025
-    ctx.strokeStyle = 'blue';
-    ctx.moveTo(DOT_X + a6 * RADIUS, DOT_Y + b6 * RADIUS);
-    ctx.lineTo((DOT_X + a6 * RADIUS) + b6 * 5 / 12 * GIRTH, (DOT_Y + b6 * RADIUS) - a6 * 5 / 12 * GIRTH);
-    ctx.stroke();
-    ctx.restore();
-
-    // 第八个直线偏移
-    ctx.save();
-    let a7 = sinAngle(8 * ANGLE);//-0.5
-    let b7 = cosAngle(8 * ANGLE);//-0.866025
-    ctx.strokeStyle = 'red';
-    ctx.moveTo(DOT_X + a7 * RADIUS, DOT_Y + b7 * RADIUS);//(230,248.0385),()
-    ctx.lineTo((DOT_X + a7 * RADIUS) + b7 * 4 / 12 * GIRTH, (DOT_Y + b7 * RADIUS) - a7 * 4 / 12 * GIRTH);
-    ctx.stroke();
-    ctx.restore();
-
-    // 第九个直线偏移
-    ctx.save();
-    let a8 = sinAngle(9 * ANGLE);//-0.5
-    let b8 = cosAngle(9 * ANGLE);//-0.866025
-    ctx.strokeStyle = 'red';
-    ctx.moveTo(DOT_X + a8 * RADIUS, DOT_Y + b8 * RADIUS);//(230,248.0385),()
-    ctx.lineTo((DOT_X + a8 * RADIUS) + b8 * 3 / 12 * GIRTH, (DOT_Y + b8 * RADIUS) - a8 * 3 / 12 * GIRTH);
-    ctx.stroke();
-    ctx.restore();
-
-    // 第十个直线偏移
-    ctx.save();
-    let a9 = sinAngle(10 * ANGLE);//-0.5
-    let b9 = cosAngle(10 * ANGLE);//-0.866025
-    ctx.strokeStyle = 'red';
-    ctx.moveTo(DOT_X + a9 * RADIUS, DOT_Y + b9 * RADIUS);//(230,248.0385),()
-    ctx.lineTo((DOT_X + a9 * RADIUS) + b9 * 2 / 12 * GIRTH, (DOT_Y + b9 * RADIUS) - a9 * 2 / 12 * GIRTH);
-    ctx.stroke();
-    ctx.restore();
-
-
-    // 第十一个直线偏移
-    ctx.save();
-    let a10 = sinAngle(11 * ANGLE);//-0.5
-    let b10 = cosAngle(11 * ANGLE);//-0.866025
-    ctx.strokeStyle = 'firebrick';
-    ctx.moveTo(DOT_X + a10 * RADIUS, DOT_Y + b10 * RADIUS);//(230,248.0385),()
-    ctx.lineTo((DOT_X + a10 * RADIUS) + b10 * 1 / 12 * GIRTH, (DOT_Y + b10 * RADIUS) - a10 * 1 / 12 * GIRTH);
-    ctx.stroke();
-    ctx.restore();
-
-
-    /*绘制绕围线*/
-    ctx.save();
-    ctx.strokeStyle='turquoise';
-    ctx.moveTo(DOT_X, DOT_Y + RADIUS);
-    //第一个起始点
-    ctx.lineTo((DOT_X + a10 * RADIUS) + b10 * 1 / 12 * GIRTH, (DOT_Y + b10 * RADIUS) - a10 * 1 / 12 * GIRTH);
-    ctx.lineTo((DOT_X + a9 * RADIUS) + b9 * 2 / 12 * GIRTH, (DOT_Y + b9 * RADIUS) - a9 * 2 / 12 * GIRTH);
-    ctx.lineTo((DOT_X + a8 * RADIUS) + b8 * 3 / 12 * GIRTH, (DOT_Y + b8 * RADIUS) - a8 * 3 / 12 * GIRTH);
-    ctx.lineTo((DOT_X + a7 * RADIUS) + b7 * 4 / 12 * GIRTH, (DOT_Y + b7 * RADIUS) - a7 * 4 / 12 * GIRTH);
-    ctx.lineTo((DOT_X + a6 * RADIUS) + b6 * 5 / 12 * GIRTH, (DOT_Y + b6 * RADIUS) - a6 * 5 / 12 * GIRTH);
-    ctx.lineTo((DOT_X + a5 * RADIUS) + b5 * 6 / 12 * GIRTH, (DOT_Y + b5 * RADIUS) - a5 * 6 / 12 * GIRTH);
-    ctx.lineTo((DOT_X + a4 * RADIUS) + b4 * 7 / 12 * GIRTH, (DOT_Y + b4 * RADIUS) - a4 * 7 / 12 * GIRTH);
-    ctx.lineTo(DOT_X + a3 - sinAngle(30) * 8 / 12 * GIRTH, DOT_Y + b3 - cosAngle(30) * 8 / 12 * GIRTH);
-    ctx.lineTo((DOT_X + a2 * RADIUS) + b2 * 9 / 12 * GIRTH, (DOT_Y + b2 * RADIUS) - a2 * 9 / 12 * GIRTH);
-    ctx.lineTo((DOT_X + a1 * RADIUS) + b1 * 10 / 12 * GIRTH, (DOT_Y + b1 * RADIUS) - a1 * 10 / 12 * GIRTH);
-    ctx.lineTo((DOT_X + a * RADIUS) + b * 11 / 12 * GIRTH, (DOT_Y + b * RADIUS) - a * 11 / 12 * GIRTH);
-    ctx.lineTo((DOT_X + a_ * RADIUS) + b_ * 12 / 12 * GIRTH, (DOT_Y + b_ * RADIUS) - a_ * 12 / 12 * GIRTH);
-
-    ctx.stroke();
-    ctx.restore();
-
-    //大圈
-    // ctx.save();
-    ctx.beginPath(); // beginPath() 丢弃任何当前定义的路径并且开始一条新的路径。它把当前的点设置为 (0,0)。
-    // ctx.arc(200, 300, 60, 0, Math.PI * 2, false); // Earth orbit
-    // ctx.stroke();
-    // ctx.restore();
-
-    window.requestAnimationFrame(draw);
-  }
-
-  init();
-
-  /**
-   * @desc 取坐标点
-   * */
-  function coordinates(event) {
-    const e = event;
-    console.info(e.offsetX, e.offsetY);
-  }
+		
+		//绘制最长的线
+		ctx.save();
+		ctx.strokeStyle = 'blue';
+		let a_ = sinAngle(0);
+		let b_ = cosAngle(0);
+		ctx.moveTo(DOT_X + a_ * RADIUS, DOT_Y + b_ * RADIUS);
+		ctx.lineTo((DOT_X + a_ * RADIUS) + b_ * 12 / 12 * GIRTH, (DOT_Y + b_ * RADIUS) - a_ * 12 / 12 * GIRTH);
+		ctx.stroke();
+		ctx.restore();
+		
+		// 第一个直线偏移
+		ctx.save();
+		let a = sinAngle(ANGLE);
+		let b = cosAngle(ANGLE);
+		ctx.strokeStyle = 'red';
+		ctx.moveTo(DOT_X + a * RADIUS, DOT_Y + b * RADIUS);
+		ctx.lineTo((DOT_X + a * RADIUS) + b * 11 / 12 * GIRTH, (DOT_Y + b * RADIUS) - a * 11 / 12 * GIRTH);
+		ctx.stroke();
+		ctx.restore();
+		
+		
+		// 第二个直线偏移
+		ctx.save();
+		let a1 = sinAngle(2 * ANGLE);//0.866025*60
+		let b1 = cosAngle(2 * ANGLE);//0.5*60
+		ctx.strokeStyle = 'green';
+		ctx.moveTo(DOT_X + a1 * RADIUS, DOT_Y + b1 * RADIUS);
+		ctx.lineTo((DOT_X + a1 * RADIUS) + b1 * 10 / 12 * GIRTH, (DOT_Y + b1 * RADIUS) - a1 * 10 / 12 * GIRTH);
+		ctx.stroke();
+		ctx.restore();
+		
+		// 第三个直线偏移
+		ctx.save();
+		let a2 = sinAngle(3 * ANGLE);//1*60
+		let b2 = cosAngle(3 * ANGLE);//0*60
+		ctx.strokeStyle = 'blue';
+		ctx.moveTo(DOT_X + a2 * RADIUS, DOT_Y + b2 * RADIUS);
+		ctx.lineTo((DOT_X + a2 * RADIUS) + b2 * 9 / 12 * GIRTH, (DOT_Y + b2 * RADIUS) - a2 * 9 / 12 * GIRTH);
+		ctx.stroke();
+		ctx.restore();
+		
+		
+		// 第四个直线偏移
+		ctx.save();
+		let a3 = sinAngle(4 * ANGLE) * RADIUS;//0.866025*60
+		let b3 = cosAngle(4 * ANGLE) * RADIUS;//-0.5*60
+		ctx.strokeStyle = 'yellow';
+		ctx.moveTo(DOT_X + a3, DOT_Y + b3);//(251.9615,270),(126.29779385640829 52.34417777399196)
+		ctx.lineTo(DOT_X + a3 - sinAngle(30) * 8 / 12 * GIRTH, DOT_Y + b3 - cosAngle(30) * 8 / 12 * GIRTH);
+		ctx.stroke();
+		ctx.restore();
+		
+		// 第五个直线偏移
+		
+		ctx.save();
+		let a4 = sinAngle(5 * ANGLE);//0.5
+		let b4 = cosAngle(5 * ANGLE);//-0.866025
+		ctx.strokeStyle = 'red';
+		ctx.moveTo(DOT_X + a4 * RADIUS, DOT_Y + b4 * RADIUS);//(230,248.0385),()
+		ctx.lineTo((DOT_X + a4 * RADIUS) + b4 * 7 / 12 * GIRTH, (DOT_Y + b4 * RADIUS) - a4 * 7 / 12 * GIRTH);
+		ctx.stroke();
+		ctx.restore();
+		
+		// 第六个直线偏移
+		ctx.save();
+		let a5 = sinAngle(6 * ANGLE);//0.5
+		let b5 = cosAngle(6 * ANGLE);//-0.866025
+		ctx.strokeStyle = 'green';
+		ctx.moveTo(DOT_X + a5 * RADIUS, DOT_Y + b5 * RADIUS);//(230,248.0385),()
+		ctx.lineTo((DOT_X + a5 * RADIUS) + b5 * 6 / 12 * GIRTH, (DOT_Y + b5 * RADIUS) - a5 * 6 / 12 * GIRTH);
+		ctx.stroke();
+		ctx.restore();
+		
+		
+		// 第七个直线偏移
+		ctx.save();
+		let a6 = sinAngle(7 * ANGLE);//-0.5
+		let b6 = cosAngle(7 * ANGLE);//-0.866025
+		ctx.strokeStyle = 'blue';
+		ctx.moveTo(DOT_X + a6 * RADIUS, DOT_Y + b6 * RADIUS);
+		ctx.lineTo((DOT_X + a6 * RADIUS) + b6 * 5 / 12 * GIRTH, (DOT_Y + b6 * RADIUS) - a6 * 5 / 12 * GIRTH);
+		ctx.stroke();
+		ctx.restore();
+		
+		// 第八个直线偏移
+		ctx.save();
+		let a7 = sinAngle(8 * ANGLE);//-0.5
+		let b7 = cosAngle(8 * ANGLE);//-0.866025
+		ctx.strokeStyle = 'red';
+		ctx.moveTo(DOT_X + a7 * RADIUS, DOT_Y + b7 * RADIUS);//(230,248.0385),()
+		ctx.lineTo((DOT_X + a7 * RADIUS) + b7 * 4 / 12 * GIRTH, (DOT_Y + b7 * RADIUS) - a7 * 4 / 12 * GIRTH);
+		ctx.stroke();
+		ctx.restore();
+		
+		// 第九个直线偏移
+		ctx.save();
+		let a8 = sinAngle(9 * ANGLE);//-0.5
+		let b8 = cosAngle(9 * ANGLE);//-0.866025
+		ctx.strokeStyle = 'red';
+		ctx.moveTo(DOT_X + a8 * RADIUS, DOT_Y + b8 * RADIUS);//(230,248.0385),()
+		ctx.lineTo((DOT_X + a8 * RADIUS) + b8 * 3 / 12 * GIRTH, (DOT_Y + b8 * RADIUS) - a8 * 3 / 12 * GIRTH);
+		ctx.stroke();
+		ctx.restore();
+		
+		// 第十个直线偏移
+		ctx.save();
+		let a9 = sinAngle(10 * ANGLE);//-0.5
+		let b9 = cosAngle(10 * ANGLE);//-0.866025
+		ctx.strokeStyle = 'red';
+		ctx.moveTo(DOT_X + a9 * RADIUS, DOT_Y + b9 * RADIUS);//(230,248.0385),()
+		ctx.lineTo((DOT_X + a9 * RADIUS) + b9 * 2 / 12 * GIRTH, (DOT_Y + b9 * RADIUS) - a9 * 2 / 12 * GIRTH);
+		ctx.stroke();
+		ctx.restore();
+		
+		
+		// 第十一个直线偏移
+		ctx.save();
+		let a10 = sinAngle(11 * ANGLE);//-0.5
+		let b10 = cosAngle(11 * ANGLE);//-0.866025
+		ctx.strokeStyle = 'firebrick';
+		ctx.moveTo(DOT_X + a10 * RADIUS, DOT_Y + b10 * RADIUS);//(230,248.0385),()
+		ctx.lineTo((DOT_X + a10 * RADIUS) + b10 * 1 / 12 * GIRTH, (DOT_Y + b10 * RADIUS) - a10 * 1 / 12 * GIRTH);
+		ctx.stroke();
+		ctx.restore();
+		
+		
+		/*绘制绕围线*/
+		ctx.save();
+		ctx.strokeStyle = 'turquoise';
+		ctx.moveTo(DOT_X, DOT_Y + RADIUS);
+		//第一个起始点
+		ctx.lineTo((DOT_X + a10 * RADIUS) + b10 * 1 / 12 * GIRTH, (DOT_Y + b10 * RADIUS) - a10 * 1 / 12 * GIRTH);
+		ctx.lineTo((DOT_X + a9 * RADIUS) + b9 * 2 / 12 * GIRTH, (DOT_Y + b9 * RADIUS) - a9 * 2 / 12 * GIRTH);
+		ctx.lineTo((DOT_X + a8 * RADIUS) + b8 * 3 / 12 * GIRTH, (DOT_Y + b8 * RADIUS) - a8 * 3 / 12 * GIRTH);
+		ctx.lineTo((DOT_X + a7 * RADIUS) + b7 * 4 / 12 * GIRTH, (DOT_Y + b7 * RADIUS) - a7 * 4 / 12 * GIRTH);
+		ctx.lineTo((DOT_X + a6 * RADIUS) + b6 * 5 / 12 * GIRTH, (DOT_Y + b6 * RADIUS) - a6 * 5 / 12 * GIRTH);
+		ctx.lineTo((DOT_X + a5 * RADIUS) + b5 * 6 / 12 * GIRTH, (DOT_Y + b5 * RADIUS) - a5 * 6 / 12 * GIRTH);
+		ctx.lineTo((DOT_X + a4 * RADIUS) + b4 * 7 / 12 * GIRTH, (DOT_Y + b4 * RADIUS) - a4 * 7 / 12 * GIRTH);
+		ctx.lineTo(DOT_X + a3 - sinAngle(30) * 8 / 12 * GIRTH, DOT_Y + b3 - cosAngle(30) * 8 / 12 * GIRTH);
+		ctx.lineTo((DOT_X + a2 * RADIUS) + b2 * 9 / 12 * GIRTH, (DOT_Y + b2 * RADIUS) - a2 * 9 / 12 * GIRTH);
+		ctx.lineTo((DOT_X + a1 * RADIUS) + b1 * 10 / 12 * GIRTH, (DOT_Y + b1 * RADIUS) - a1 * 10 / 12 * GIRTH);
+		ctx.lineTo((DOT_X + a * RADIUS) + b * 11 / 12 * GIRTH, (DOT_Y + b * RADIUS) - a * 11 / 12 * GIRTH);
+		ctx.lineTo((DOT_X + a_ * RADIUS) + b_ * 12 / 12 * GIRTH, (DOT_Y + b_ * RADIUS) - a_ * 12 / 12 * GIRTH);
+		console.log((DOT_X + a9 * RADIUS) + b9 * 2 / 12 * GIRTH, (DOT_Y + b9 * RADIUS) - a9 * 2 / 12 * GIRTH)
+		// console.log((DOT_X + a10 * RADIUS) + b10 * 1 / 12 * GIRTH, (DOT_Y + b10 * RADIUS) - a10 * 1 / 12 * GIRTH)
+	
+		ctx.stroke();
+		ctx.restore();
+		
+		//大圈
+		// ctx.save();
+		ctx.beginPath(); // beginPath() 丢弃任何当前定义的路径并且开始一条新的路径。它把当前的点设置为 (0,0)。
+		// ctx.arc(200, 300, 60, 0, Math.PI * 2, false); // Earth orbit
+		// ctx.stroke();
+		// ctx.restore();
+		
+		window.requestAnimationFrame(draw);
+	}
+	
+	init();
+	
+	/**
+	 * @desc 取坐标点
+	 * */
+	function coordinates(event) {
+		const e = event;
+		console.info(`鼠标坐标：(${e.offsetX}, ${e.offsetY})`);
+		// console.info(e.offsetX, e.offsetY);
+	}
 
 
 </script>

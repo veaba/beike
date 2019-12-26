@@ -9,8 +9,8 @@
 
 */
 var canvas = document.querySelector('#canvas');
-var width = Number(canvas.width || 0);
-var height = Number(canvas.height || 0);
+var width = Number(canvas.width) || 0;
+var height = Number(canvas.height) || 0;
 var color = "red";
 console.info(width, height);
 var ctx = canvas.getContext('2d');
@@ -35,12 +35,13 @@ ctx.beginPath();
 ctx.moveTo(width / 2, height / 2);
 ctx.lineTo(200, 300);
 ctx.stroke();
-// _fn.direction(300,300,100,30,ctx)
-// _fn.direction(300,300,100,35,ctx)
-// _fn.direction(300,300,100,40,ctx)
-// _fn.direction(300,300,100,45,ctx)
-_fn.direction(300, 300, 100, 127, ctx);
-// _fn.direction(300,300,100,50,ctx)
-// _fn.direction(300,300,100,55,ctx)
-// _fn.direction(300,300,100,60,ctx)
-// _fn.direction(300,300,100,65,ctx)
+console.log(222, _random(111));
+_fn.direction(300, 300, 100, 30, ctx);
+_fn.direction(300, 300, 100, 35, ctx);
+_fn.direction(300, 300, 100, 40, ctx);
+_fn.direction(300, 300, 100, 45, ctx);
+_fn.direction(300, 300, 100, 55, ctx);
+_fn.direction(300, 300, 100, 60, ctx);
+_fn.direction(300, 300, 100, 65, ctx);
+_fn.direction(300, 300, 100, 70, ctx);
+_fn.direction(300, 300, 100, 75, ctx);

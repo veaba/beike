@@ -9,9 +9,10 @@ var _fn = {
      * y Y轴坐标
      * z 线的长度
      * r 旋转角度，顺时针方向
-     *
+     * ctx canvas 上下文
      */
     direction: function (x, y, z, r, ctx) {
+        // let ctx:any=ctx
         // TODO 度数
         //起始点
         ctx.beginPath();
