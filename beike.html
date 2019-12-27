@@ -2,145 +2,163 @@
 <html lang="zh-CN">
 
 <head>
-	<meta charset="UTF-8">
-	<!--移动支持-->
-	<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-	<title>Welcome Beike.io</title>
-	<link rel="stylesheet" href="css/brand.css">
-	<script>
-		/**
-		 * @desc 扇形绑定在原型的函数
-		 * @return
-		 * */
-		CanvasRenderingContext2D.prototype.sector = function (x, y, r, sDeg, eDeg) {
-			this.save();
-			this.translate(x, y);
-			this.beginPath();
-			this.arc(0, 0, r, sDeg * Math.PI / 180, eDeg * Math.PI / 180);
-			this.lineTo(0, 0);
-			this.rotate(sDeg * Math.PI / 180);
-			this.lineTo(r, 0);
-			this.restore();
-			return this;
-		};
-	</script>
+		<meta charset="UTF-8">
+		<!--移动支持-->
+		<meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+		<title>Welcome Beike.io</title>
+		<link rel="stylesheet" href="css/brand.css">
+		<script>
+			/**
+			 * @desc 扇形绑定在原型的函数
+			 * @return
+			 * */
+			CanvasRenderingContext2D.prototype.sector = function (x, y, r, sDeg, eDeg) {
+				this.save();
+				this.translate(x, y);
+				this.beginPath();
+				this.arc(0, 0, r, sDeg * Math.PI / 180, eDeg * Math.PI / 180);
+				this.lineTo(0, 0);
+				this.rotate(sDeg * Math.PI / 180);
+				this.lineTo(r, 0);
+				this.restore();
+				return this;
+			};
+		</script>
 </head>
 
 <body>
-	<canvas id="canvas" width='600' height='400' onmousemove="coordinates(event)"></canvas>
+<canvas id="canvas" width='600' height='400' onmousemove="coordinates(event)"></canvas>
 
-	<script>
-		/**
-		 * @desc 声明参数
-		 * */
-		let RADIUS = 60; //圆的半径
-		let ANGLE = 30; //旋转角度
-		let WIDTH = 600; //宽
-		let HEIGHT = 400; //高
-		let DOT_X = 200; //原点X轴
-		let DOT_Y = 300; //原点Y轴
-		let GIRTH = 2 * Math.PI * RADIUS; //半斤60的周长
-		let sin30 = Math.sin(ANGLE * Math.PI / 180); //sin30 = a/c
-		let cos30 = Math.cos(ANGLE * Math.PI / 180); //cos30 = b/c
-
-		/**
-		 * @desc 求sin α
-		 * */
-		function sinAngle(angle) {
-			return Math.round(Math.sin(angle * Math.PI / 180) * 1000000) / 1000000;
+<script>
+	
+	/**
+	 * @desc 声明参数
+	 * */
+	let RADIUS = 60; //圆的半径
+	let ANGLE = 30; //旋转角度
+	let WIDTH = 600; //宽
+	let HEIGHT = 400; //高
+	let DOT_X = 200; //原点X轴
+	let DOT_Y = 300; //原点Y轴
+	let GIRTH = 2 * Math.PI * RADIUS; //半斤60的周长
+	let sin30 = Math.sin(ANGLE * Math.PI / 180); //sin30 = a/c
+	let cos30 = Math.cos(ANGLE * Math.PI / 180); //cos30 = b/c
+	
+	//  获得开始、终点坐标组
+	const coordinateObj = getCoordinate();
+	
+	/**
+	 * @desc 求sin α
+	 * */
+	function sinAngle(angle) {
+		return Math.round(Math.sin(angle * Math.PI / 180) * 1000000) / 1000000;
+	}
+	
+	/**
+	 * @desc 求cos α
+	 * */
+	function cosAngle(angle) {
+		return Math.round(Math.cos(angle * Math.PI / 180) * 1000000) / 1000000;
+	}
+	
+	/**
+	 * @desc 初始化函数
+	 * */
+	function init() {
+		
+		window.requestAnimationFrame(draw);
+	}
+	
+	/*
+	* @desc 获得起点、终点坐标组
+	* @return {
+	*   start:[],
+	*   end:[]
+	* }
+	* */
+	
+	function getCoordinate() {
+		const coordinateObj = {
+			start: [],
+			end: []
+		};
+		for (let i = 0; i <= 11; i++) {
+			const bLine = Math.PI * RADIUS * 2 * (12 - i) / 12;
+			let start = [DOT_X + sinAngle(i * 30) * RADIUS, DOT_Y + cosAngle(i * 30) * RADIUS];
+			let end = [start[0] + cosAngle(i * 30) * bLine, start[1] - sinAngle(i * 30) * bLine];
+			coordinateObj['start'].push([parseInt(start[0]),parseInt(start[1])]);
+			coordinateObj['end'].push([parseInt(end[0]),parseInt(end[1])]);
 		}
-
-		/**
-		 * @desc 求cos α
-		 * */
-		function cosAngle(angle) {
-			return Math.round(Math.cos(angle * Math.PI / 180) * 1000000) / 1000000;
+		return coordinateObj;
+	}
+	
+	console.info(coordinateObj);
+	
+	// 绘制
+	function draw() {
+		const canvas = document.getElementById('canvas');
+		const ctx = canvas.getContext('2d');
+		const time = new Date();
+		ctx.globalCompositeOperation = 'destination-over';
+		const rotateAngel = time.getSeconds() * -30 % 360;
+		const scale = -rotateAngel / 30;
+		// 第一步 清空画布
+		ctx.clearRect(0, 0, 600, 400);
+		// 秒钟
+		ctx.save(); // 保存当前环境的状态
+		ctx.translate(200, 300); // 定位中心
+		
+		
+		
+		ctx.strokeStyle="red";
+		ctx.rotate((time.getSeconds() * -30) % 360 * Math.PI / 180); //旋转5度数（公式：5*2*Math.PI/180）,这里是逆时针30度旋转
+		ctx.beginPath();
+		ctx.lineWidth=1;
+		ctx.moveTo(0, 0);
+		ctx.lineTo.apply(ctx,[0,60]);
+		ctx.stroke();
+		ctx.restore(); //返回之前保存过的路径状态和属性
+		
+		// 直线偏移
+		ctx.save();
+		ctx.moveTo.apply(ctx, coordinateObj['start'][scale]); // 把路径移动到画布中的指定点，不创建线条
+		ctx.lineTo.apply(ctx, coordinateObj['end'][scale]); // 添加一个新点，然后在画布中创建从该点到最后指定点的线条
+		ctx.stroke();
+		ctx.restore();
+		
+		/*绘制绕围线*/
+		ctx.save();
+		ctx.moveTo.apply(ctx, coordinateObj['end'][scale]);
+		for (let i = scale; i <= 11; i++) {
+			ctx.lineTo.apply(ctx, coordinateObj['end'][i])
 		}
-
-		/**
-		 * @desc 初始化函数
-		 * */
-		function init() {
-			window.requestAnimationFrame(draw);
-			// setInterval(function () {
-			// 	draw();
-			// }, 1000);
-		}
-
-		function draw() {
-			const canvas = document.getElementById('canvas');
-			const ctx = canvas.getContext('2d');
-			const time = new Date();
-			ctx.globalCompositeOperation = 'destination-over';
-			// 第一步 清空画布
-			ctx.clearRect(0, 0, 600, 400);
-			// 秒钟
-			ctx.save();
-			ctx.translate(200, 300); // 定位中心
-			ctx.fillStyle = 'red'; // 线条颜色
-			ctx.rotate((time.getSeconds() * -30)%360 * Math.PI / 180); //旋转5度数（公式：5*2*Math.PI/180）,这里是逆时针30度旋转
-			// ctx.rotate((time.getSeconds() * -30 * Math.PI / 180)); //旋转5度数（公式：5*2*Math.PI/180）,这里是逆时针30度旋转
-			ctx.fillRect(0, 0, 1, 60); //颜色填充 x,y,width,height
-			ctx.restore(); //返回之前保存过的路径状态和属性
-			const rotateAngel=time.getSeconds() * -30%360
-			// todo 直线偏移
-			// console.log('度数：',rotateAngel)
-			
-			// console.log('逆时针：',-rotateAngel/30)
-
-			// console.log('cosAngle'+rotateAngel+'°',cosAngle(rotateAngel))
-			console.log('cosA',cosAngle(rotateAngel)*DOT_X)
-
-			/*绘制绕围线*/
-			ctx.save();
-			ctx.strokeStyle = 'turquoise';
-			ctx.moveTo(DOT_X, DOT_Y + RADIUS);
-			let i = 0;
-			//第一个起始点
-			ctx.lineTo(DOT_X + time.getSeconds(), DOT_Y + RADIUS - time.getSeconds());
-			ctx.stroke();
-			ctx.moveTo(DOT_X, DOT_Y + RADIUS);
-			ctx.lineTo(DOT_X - time.getSeconds(), DOT_Y + RADIUS - time.getSeconds());
-
-			// ctx.lineTo((DOT_X + a12 * RADIUS) + b12 * 1 / 12 * GIRTH, (DOT_Y + b12 * RADIUS) - a12 * 1 / 12 * GIRTH);
-			// ctx.lineTo((DOT_X + a11 * RADIUS) + b11 * 2 / 12 * GIRTH, (DOT_Y + b11 * RADIUS) - a11 * 2 / 12 * GIRTH);
-			// ctx.lineTo((DOT_X + a10 * RADIUS) + b10 * 3 / 12 * GIRTH, (DOT_Y + b10 * RADIUS) - a10 * 3 / 12 * GIRTH);
-			// ctx.lineTo((DOT_X + a9 * RADIUS) + b9 * 4 / 12 * GIRTH, (DOT_Y + b9 * RADIUS) - a9 * 4 / 12 * GIRTH);
-			// ctx.lineTo((DOT_X + a8 * RADIUS) + b8 * 5 / 12 * GIRTH, (DOT_Y + b8 * RADIUS) - a8 * 5 / 12 * GIRTH);
-			// ctx.lineTo((DOT_X + a7 * RADIUS) + b7 * 6 / 12 * GIRTH, (DOT_Y + b7 * RADIUS) - a7 * 6 / 12 * GIRTH);
-			// ctx.lineTo((DOT_X + a6 * RADIUS) + b6 * 7 / 12 * GIRTH, (DOT_Y + b6 * RADIUS) - a6 * 7 / 12 * GIRTH);
-			// ctx.lineTo((DOT_X + a5 * RADIUS) + b5 * 8 / 12 * GIRTH, (DOT_Y + b5 * RADIUS) - a5 * 8 / 12 * GIRTH);
-			// ctx.lineTo((DOT_X + a4 * RADIUS) + b4 * 9 / 12 * GIRTH, (DOT_Y + b4 * RADIUS) - a4 * 9 / 12 * GIRTH);
-			// ctx.lineTo((DOT_X + a3 * RADIUS) + b3 * 10 / 12 * GIRTH, (DOT_Y + b3 * RADIUS) - a3 * 10 / 12 * GIRTH);
-			// ctx.lineTo((DOT_X + a2 * RADIUS) + b2 * 11 / 12 * GIRTH, (DOT_Y + b2 * RADIUS) - a2 * 11 / 12 * GIRTH);
-			// ctx.lineTo((DOT_X + a1 * RADIUS) + b1 * 12 / 12 * GIRTH, (DOT_Y + b1 * RADIUS) - a1 * 12 / 12 * GIRTH);
-
-			ctx.lineTo(DOT_X, DOT_Y + RADIUS);
-
-			ctx.stroke();
-			ctx.restore();
-
-			//大圈
-			// ctx.save();
-			ctx.beginPath(); // beginPath() 丢弃任何当前定义的路径并且开始一条新的路径。它把当前的点设置为 (0,0)。
-			// ctx.arc(200, 300, 60, 0, Math.PI * 2, false); // Earth orbit
-			// ctx.stroke();
-			// ctx.restore();
-
-			window.requestAnimationFrame(draw);
-		}
-
-		init();
-
-		/**
-		 * @desc 取坐标点
-		 * */
-		function coordinates(event) {
-			const e = event;
-			console.info(e.offsetX, e.offsetY);
-		}
-	</script>
-	<!--<script src="js/brand.js"></script>-->
+		ctx.stroke();
+		ctx.restore();
+		
+		// console.info(scale, `起点坐标(${startCoordinate[0]},${startCoordinate[1]});终点坐标(${endCoordinate[0]},${endCoordinate[1]})`);
+		
+		
+		//大圈
+		ctx.beginPath(); // beginPath() 丢弃任何当前定义的路径并且开始一条新的路径。它把当前的点设置为 (0,0)。
+		window.requestAnimationFrame(draw);
+	}
+	
+	init();
+	
+	/**
+	 * @desc 取坐标点
+	 * */
+	function coordinates(event) {
+		const e = event;
+		console.info(e.offsetX, e.offsetY);
+	}
+</script>
+<!--<script src="js/brand.js"></script>-->
 </body>
 
 </html>
+
+<!--
+// ctx.rotate((time.getSeconds() * -30 * Math.PI / 180)); //旋转5度数（公式：5*2*Math.PI/180）,这里是逆时针30度旋转
+
+-->
