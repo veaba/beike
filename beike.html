@@ -101,9 +101,14 @@
 	}
 	
 	console.info(coordinateObj);
+	let __t = 0;
 	
 	// 绘制
 	function draw() {
+		__t++;
+		if (__t >= 60) {
+			__t = 0;
+		}
 		const canvas = document.getElementById('canvas');
 		const ctx = canvas.getContext('2d');
 		const time = new Date();
@@ -127,11 +132,11 @@
 		ctx.restore(); //返回之前保存过的路径状态和属性
 		
 		// 直线偏移
-		ctx.save();
-		ctx.moveTo.apply(ctx, coordinateObj['start'][scale]); // 把路径移动到画布中的指定点，不创建线条
-		ctx.lineTo.apply(ctx, coordinateObj['end'][scale]); // 添加一个新点，然后在画布中创建从该点到最后指定点的线条
-		ctx.stroke();
-		ctx.restore();
+		// ctx.save();
+		// ctx.moveTo.apply(ctx, coordinateObj['start'][scale]); // 把路径移动到画布中的指定点，不创建线条
+		// ctx.lineTo.apply(ctx, coordinateObj['end'][scale]); // 添加一个新点，然后在画布中创建从该点到最后指定点的线条
+		// ctx.stroke();
+		// ctx.restore();
 		
 		/*绘制绕围线*/
 		ctx.save();
@@ -152,15 +157,17 @@
 		const bLine = endCo[1] - startCo[1];
 		
 		const cLine = Math.round(Math.sqrt(Math.pow(aLine, 2) + Math.pow(bLine, 2)));// c 的长度
-		
-		for (let i = 0; i < cLine; i+=10) {
-			const a = sinAngle(scale * 30) * cLine;
-			const b = cosAngle(scale * 30) * cLine;
-			console.info(i, a, b);
-		}
-		console.log('scale:', scale, cLine);
-		// todo 最后一个值再到end 的结束值
-		// todo a/c=sinA c均等+1
+		// todo 会移动的线
+		ctx.save();
+		ctx.moveTo.apply(ctx, coordinateObj['start'][scale]);
+		ctx.strokeStyle = "yellow";
+		let a = sinAngle(scale * 30 + 90) * (cLine * __t / 60);
+		let b = cosAngle(scale * 30 + 90) * (cLine * __t / 60);
+		a = coordinateObj['start'][scale][0] + Math.round(a);
+		b = coordinateObj['start'][scale][1] + Math.round(b);
+		ctx.lineTo.apply(ctx, [a, b]);
+		ctx.stroke();
+		ctx.restore();
 		
 		
 		//大圈
@@ -179,6 +186,18 @@
 	}
 </script>
 <!--<script src="js/brand.js"></script>-->
+<!--测试-->
+<script>
+	function f() {
+		for (let i = 0; i < 10; i++) {
+			setTimeout(() => {
+				console.info('循环里带延时：', i);
+			}, (i * 100));
+		}
+	}
+	
+	f();
+</script>
 </body>
 
 </html>
