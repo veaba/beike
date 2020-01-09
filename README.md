@@ -5,11 +5,11 @@ beike ，logo 都画好了，一个比较抽象性的小站，目前就想放一
 - 如何让typescript 支持 dom 开发的js编译，支持import和export、require
 ## datav.ai 
 
-![/images/datav_demo.png](/images/datav_demo.png)
+![/images/datav_demo.png](images/datav_demo.png)
 
 ## 三角函数公式
 
-![triangle.jpg](/images/triangle.jpg)
+![triangle.jpg](images/triangle.jpg)
 
 基本函数|英文|缩写|表达式|语言描述|
 |------|--------|-----|-------|----|
@@ -21,7 +21,7 @@ beike ，logo 都画好了，一个比较抽象性的小站，目前就想放一
 余割函数|cosecant|csc|c/a|∠A的斜边比对边|
 
 
-## 一份400x600，定位圆心坐标为(200,300),半径为60的黄金圆坐标点，逆时针坐标
+### 一份400x600，定位圆心坐标为(200,300),半径为60的黄金圆坐标点，逆时针坐标
 |起点坐标|终点坐标
 |---|---|
 |(200, 360)|529, 179|
@@ -37,7 +37,7 @@ beike ，logo 都画好了，一个比较抽象性的小站，目前就想放一
 |(148, 330)|(179, 384)|
 |(170, 351)|(197, 367)|
 
-## 常见角度关系
+### 常见角度关系
 sin比cos 多90°（提前多90°）
 
 |角度|sinA|cosA|tanA|
@@ -70,4 +70,13 @@ sin比cos 多90°（提前多90°）
 |-330°||||
 |-360°||||
 
-## 
+### 根据a/c 求A的角度
+
+```js
+	/**
+	 * @desc 求tan A
+	 * */
+	function tanGetAngle(value) {
+		return Math.round(Math.atan(value) / (Math.PI / 180)* 1000000) / 1000000;
+	}
+```

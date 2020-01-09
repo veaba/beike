@@ -61,6 +61,14 @@
 		return Math.round(Math.cos(angle * Math.PI / 180) * 1000000) / 1000000;
 	}
 	
+	
+	/**
+	 * @desc 求tan A
+	 * */
+	// function tanGetAngle(value) {
+	// 	return Math.round(Math.atan(value) / (Math.PI / 180)* 1000000) / 1000000;
+	// }
+	
 	/**
 	 * @desc 初始化函数
 	 * */
@@ -86,8 +94,8 @@
 			const bLine = Math.PI * RADIUS * 2 * (12 - i) / 12;
 			let start = [DOT_X + sinAngle(i * 30) * RADIUS, DOT_Y + cosAngle(i * 30) * RADIUS];
 			let end = [start[0] + cosAngle(i * 30) * bLine, start[1] - sinAngle(i * 30) * bLine];
-			coordinateObj['start'].push([parseInt(start[0]),parseInt(start[1])]);
-			coordinateObj['end'].push([parseInt(end[0]),parseInt(end[1])]);
+			coordinateObj['start'].push([parseInt(start[0]), parseInt(start[1])]);
+			coordinateObj['end'].push([parseInt(end[0]), parseInt(end[1])]);
 		}
 		return coordinateObj;
 	}
@@ -109,13 +117,12 @@
 		ctx.translate(200, 300); // 定位中心
 		
 		
-		
-		ctx.strokeStyle="red";
+		ctx.strokeStyle = "red";
 		ctx.rotate((time.getSeconds() * -30) % 360 * Math.PI / 180); //旋转5度数（公式：5*2*Math.PI/180）,这里是逆时针30度旋转
 		ctx.beginPath();
-		ctx.lineWidth=1;
+		ctx.lineWidth = 1;
 		ctx.moveTo(0, 0);
-		ctx.lineTo.apply(ctx,[0,60]);
+		ctx.lineTo.apply(ctx, [0, 60]);
 		ctx.stroke();
 		ctx.restore(); //返回之前保存过的路径状态和属性
 		
@@ -130,12 +137,30 @@
 		ctx.save();
 		ctx.moveTo.apply(ctx, coordinateObj['end'][scale]);
 		for (let i = scale; i <= 11; i++) {
-			ctx.lineTo.apply(ctx, coordinateObj['end'][i])
+			ctx.lineTo.apply(ctx, coordinateObj['end'][i]);
 		}
 		ctx.stroke();
 		ctx.restore();
 		
 		// console.info(scale, `起点坐标(${startCoordinate[0]},${startCoordinate[1]});终点坐标(${endCoordinate[0]},${endCoordinate[1]})`);
+		// todo 求起点-终点的 长度=L，
+		// console.info('角度：', scale, scale * 30);
+		
+		const startCo = coordinateObj['start'][scale];
+		const endCo = coordinateObj['end'][scale];
+		const aLine = endCo[0] - startCo[0];
+		const bLine = endCo[1] - startCo[1];
+		
+		const cLine = Math.round(Math.sqrt(Math.pow(aLine, 2) + Math.pow(bLine, 2)));// c 的长度
+		
+		for (let i = 0; i < cLine; i+=10) {
+			const a = sinAngle(scale * 30) * cLine;
+			const b = cosAngle(scale * 30) * cLine;
+			console.info(i, a, b);
+		}
+		console.log('scale:', scale, cLine);
+		// todo 最后一个值再到end 的结束值
+		// todo a/c=sinA c均等+1
 		
 		
 		//大圈
