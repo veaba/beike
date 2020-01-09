@@ -101,13 +101,13 @@
 	}
 	
 	console.info(coordinateObj);
-	let __t = 1;
+	let __t = 0;
 	
 	// 绘制
 	function draw() {
 		__t++;
-		if (__t > 60) {
-			__t = 1;
+		if (__t >= 60) {
+			__t = 0;
 		}
 		const canvas = document.getElementById('canvas');
 		const ctx = canvas.getContext('2d');
@@ -120,61 +120,54 @@
 		// 秒钟
 		ctx.save(); // 保存当前环境的状态
 		ctx.translate(200, 300); // 定位中心
+		
+		
+		ctx.strokeStyle = "red";
+		ctx.rotate((time.getSeconds() * -30) % 360 * Math.PI / 180); //旋转5度数（公式：5*2*Math.PI/180）,这里是逆时针30度旋转
+		ctx.beginPath();
+		ctx.lineWidth = 1;
+		ctx.moveTo(0, 0);
+		ctx.lineTo.apply(ctx, [0, 60]);
 		ctx.stroke();
 		ctx.restore(); //返回之前保存过的路径状态和属性
 		
-		
-		/*外部环绕线*/
+		// 直线偏移
 		// ctx.save();
-		// ctx.strokeStyle = "green";
-		// ctx.lineWidth = 4;
-		// // ctx.moveTo.apply(ctx, coordinateObj['start'][11]);
-		// ctx.moveTo.apply(ctx, coordinateObj['start'][0]);
-		// for (let i = 0; i <= 11; i++) {
-		// 	ctx.lineTo.apply(ctx, coordinateObj['end'][i]);
-		// 	// ctx.lineTo.apply(ctx, coordinateObj['end'][11-i]);
-		// }
-		// ctx.lineTo.apply(ctx, coordinateObj['start'][0]);
+		// ctx.moveTo.apply(ctx, coordinateObj['start'][scale]); // 把路径移动到画布中的指定点，不创建线条
+		// ctx.lineTo.apply(ctx, coordinateObj['end'][scale]); // 添加一个新点，然后在画布中创建从该点到最后指定点的线条
 		// ctx.stroke();
+		// ctx.restore();
 		
-		/*内部环绕线*/
+		/*绘制绕围线*/
 		ctx.save();
-		ctx.lineWidth = 4;
-		ctx.strokeStyle = "#00D2DB";
-		ctx.lineJoin = "round";
-		ctx.moveTo.apply(ctx, coordinateObj['start'][11]);
-		ctx.lineTo.apply(ctx, coordinateObj['start'][0]);
-		for (let i = 0; i <= 11; i++) {
-			ctx.lineTo.apply(ctx, coordinateObj['start'][i]);
-			ctx.lineTo.apply(ctx, coordinateObj['start'][11-i]);
+		ctx.moveTo.apply(ctx, coordinateObj['end'][scale]);
+		for (let i = scale; i <= 11; i++) {
+			ctx.lineTo.apply(ctx, coordinateObj['end'][i]);
 		}
-		
-		ctx.lineTo.apply(ctx, coordinateObj['start'][11-5]);
-		
 		ctx.stroke();
-		
+		ctx.restore();
 		
 		// console.info(scale, `起点坐标(${startCoordinate[0]},${startCoordinate[1]});终点坐标(${endCoordinate[0]},${endCoordinate[1]})`);
 		// todo 求起点-终点的 长度=L，
 		// console.info('角度：', scale, scale * 30);
-		//
-		// const startCo = coordinateObj['start'][scale];
-		// const endCo = coordinateObj['end'][scale];
-		// const aLine = endCo[0] - startCo[0];
-		// const bLine = endCo[1] - startCo[1];
-		//
-		// const cLine = Math.round(Math.sqrt(Math.pow(aLine, 2) + Math.pow(bLine, 2)));// c 的长度
-		// // todo 会移动的线
-		// ctx.save();
-		// ctx.moveTo.apply(ctx, coordinateObj['start'][scale]);
-		// ctx.strokeStyle = "yellow";
-		// let a = sinAngle(scale * 30 + 90) * (cLine * __t / 60);
-		// let b = cosAngle(scale * 30 + 90) * (cLine * __t / 60);
-		// a = coordinateObj['start'][scale][0] + Math.round(a);
-		// b = coordinateObj['start'][scale][1] + Math.round(b);
-		// ctx.lineTo.apply(ctx, [a, b]);
-		// ctx.stroke();
-		// ctx.restore();
+		
+		const startCo = coordinateObj['start'][scale];
+		const endCo = coordinateObj['end'][scale];
+		const aLine = endCo[0] - startCo[0];
+		const bLine = endCo[1] - startCo[1];
+		
+		const cLine = Math.round(Math.sqrt(Math.pow(aLine, 2) + Math.pow(bLine, 2)));// c 的长度
+		// todo 会移动的线
+		ctx.save();
+		ctx.moveTo.apply(ctx, coordinateObj['start'][scale]);
+		ctx.strokeStyle = "yellow";
+		let a = sinAngle(scale * 30 + 90) * (cLine * __t / 60);
+		let b = cosAngle(scale * 30 + 90) * (cLine * __t / 60);
+		a = coordinateObj['start'][scale][0] + Math.round(a);
+		b = coordinateObj['start'][scale][1] + Math.round(b);
+		ctx.lineTo.apply(ctx, [a, b]);
+		ctx.stroke();
+		ctx.restore();
 		
 		
 		//大圈
@@ -193,6 +186,18 @@
 	}
 </script>
 <!--<script src="js/brand.js"></script>-->
+<!--测试-->
+<script>
+	function f() {
+		for (let i = 0; i < 10; i++) {
+			setTimeout(() => {
+				console.info('循环里带延时：', i);
+			}, (i * 100));
+		}
+	}
+	
+	f();
+</script>
 </body>
 
 </html>
