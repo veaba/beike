@@ -86,7 +86,7 @@ function Particle() {
 
 // initialize a set of particle
 var particles = []
-for (var i = 0; i < 90; i ++) {
+for (var i = 0; i < 1; i ++) {
   particles.push(new Particle())
 }
 
