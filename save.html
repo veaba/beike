@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body style="text-align:center">
+    <canvas style="border: 1px solid red" id="" width="600" height="400"></canvas>
+</body>
+<script type="text/javascript">
+	var ctx = document.querySelector('canvas').getContext('2d');
+    // 调用save方法
+    ctx.translate(300,300);
+	ctx.save();
+	// 改变基点的位置
+	
+	// 设置填充颜色
+	ctx.fillStyle = 'red';
+	ctx.fillRect(0,0,100,100);
+   
+
+    ctx.fillStyle='green'
+    ctx.fillRect(0,0,50,50)
+
+    ctx.fillStyle='yellow'
+    ctx.fillRect(0,0,30,30)
+    ctx.restore();
+
+    // todo 变动中心
+ 
+    ctx.fillStyle='black'
+    // ctx.save()
+    ctx.translate(0,-100)
+    ctx.restore();
+    ctx.fillRect(0,0,80,80);
+    ctx.restore()
+
+    ctx.beginPath();
+    ctx.arc(0, 0, 50, 0, Math.PI * 2, false); // Earth orbit
+    ctx.stroke();
+    ctx.translate(100, 100);
+    ctx.beginPath();
+    ctx.arc(0, 0, 50, 0, Math.PI * 2, false); // Earth orbit
+    ctx.stroke()
+
+    ctx.translate(100, 100);
+    ctx.beginPath();
+    ctx.arc(0, 0, 50, 0, Math.PI * 2, false); // Earth orbit
+    ctx.stroke()
+       
+       
+    
+
+</script>
+</html>
+
+<!--
+
+    - save() 和 restore() 方法要一起使用才会有效果。
+    - save() 方法就是保存你在 save() 中设置的各种样式以及属性。
+
+-->
